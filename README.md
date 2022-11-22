@@ -1,16 +1,15 @@
 
-# lint-staged-imagemin
-[![package version](https://img.shields.io/npm/v/lint-staged-imagemin.svg?style=flat-square)](https://npmjs.org/package/lint-staged-imagemin)
-[![package downloads](https://img.shields.io/npm/dm/lint-staged-imagemin.svg?style=flat-square)](https://npmjs.org/package/lint-staged-imagemin)
+# @democrance/imagemin-lint-staged
+[![package version](https://img.shields.io/npm/v/@democrance/imagemin-lint-staged.svg?style=flat-square)](https://npmjs.org/package/@democrance/imagemin-lint-staged)
+[![package downloads](https://img.shields.io/npm/dm/@democrance/imagemin-lint-staged.svg?style=flat-square)](https://npmjs.org/package/@democrance/imagemin-lint-staged)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-[![package license](https://img.shields.io/npm/l/lint-staged-imagemin.svg?style=flat-square)](https://npmjs.org/package/lint-staged-imagemin)
-[![make a pull request](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![package license](https://img.shields.io/npm/l/@democrance/imagemin-lint-staged.svg?style=flat-square)](https://npmjs.org/package/@democrance/imagemin-lint-staged)
 
 Easily configure [imagemin](https://github.com/imagemin) to work with [lint-staged](https://github.com/okonet/lint-staged)
 
 
 ## Table of Contents
-- [lint-staged-imagemin](#lint-staged-imagemin)
+- [@democrance/imagemin-lint-staged](#democranceimagemin-lint-staged)
   - [Table of Contents](#table-of-contents)
   - [Install](#install)
   - [Usage](#usage)
@@ -22,7 +21,7 @@ Easily configure [imagemin](https://github.com/imagemin) to work with [lint-stag
 Install the package locally within you project folder with your package manager:
 
 ```sh
-$ npm install -D lint-staged-imagemin
+$ npm install -D @democrance/imagemin-lint-staged
 ```
 
 You also need to install the default plugins unless you explicity want to override them:
@@ -37,9 +36,9 @@ Configure with [lint-staged](https://github.com/okonet/lint-staged):
 
 ```json
 {
-    "lint-staged": {
-        "*.{png,jpeg,jpg,gif,svg}": ["lint-staged-imagemin"]
-    },
+  "lint-staged": {
+    "*.{png,jpeg,jpg,gif,svg}": ["imagemin-lint-staged"]
+  }
 }
 ```
 
@@ -47,11 +46,11 @@ The package uses [cosmiconfig](https://www.npmjs.com/package/cosmiconfig) with t
 
 ```json
 {
-    "imagemin": {
-        "optipng": {
-            "optimizationLevel": 5
-        },
+  "imagemin": {
+    "optipng": {
+      "optimizationLevel": 5
     }
+  }
 }
 ```
 
@@ -59,10 +58,10 @@ Your configuration will be merged with the [default configuration](./default-con
 
 ```json
 {
-    "imagemin": {
-        "optipng": null,
-        "pngout": {}
-    }
+  "imagemin": {
+    "optipng": null,
+    "pngout": {}
+  }
 }
 ```
 
@@ -72,9 +71,9 @@ If you would like to get more details about the savings, add the `--verbose` fla
 
 ## Contributing
 
-Got an idea for a new feature? Found a bug? Contributions are welcome! Please [open up an issue](https://github.com/tiaanduplessis/lint-staged-imagemin/issues) or [make a pull request](https://makeapullrequest.com/).
+Got an idea for a new feature? Found a bug? Contributions are welcome! Please [open up an issue](https://github.com/tiaanduplessis/@democrance/imagemin-lint-staged/issues) or [make a pull request](https://makeapullrequest.com/).
 
 ## License
 
-[MIT © Tiaan du Plessis](./LICENSE)
+[MIT © Daniil Chumachenko](./LICENSE)
     

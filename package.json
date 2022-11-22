@@ -1,29 +1,49 @@
 {
-    "name": "lint-staged-imagemin",
+    "name": "@democrance/imagemin-lint-staged",
+    "version": "2.0.0",
     "description": "Easily configure imagemin to work with lint-staged",
-    "version": "1.2.0",
-    "main": "./index.js",
-    "bin": "./cli.js",
-    "author": "Tiaan du Plessis <tiaanduplessis@hotmail.com>",
-    "repository": "tiaanduplessis/lint-staged-imagemin",
     "keywords": [
         "lint-staged",
         "imagemin"
     ],
     "license": "MIT",
-    "engines": {
-        "node": ">=0.14"
+    "author": "Daniil Chumachenko <daniil4udo@gmail.com>",
+    "type": "module",
+    "main": "./lib/index.mjs",
+    "bin": {
+        "image-lint-staged": "./bin/cli.mjs",
+        "imagemin-lint-staged": "./bin/cli.mjs"
     },
     "scripts": {
-        "lint": "standard --fix"
-    },
-    "dependencies": {
-        "cosmiconfig": "^7.0.1",
-        "deepmerge": "^4.2.2",
-        "imagemin": "^8.0.1",
-        "pretty-bytes": "^6.0.0"
+        "lint": "eslint --ext .vue,.ts,.js,.mjs .",
+        "test": "rm -rf tests/__snapshots__/index.spec.js.snap && vitest"
     },
     "devDependencies": {
-        "standard": "^17.0.0"
+        "@antfu/eslint-config": "^0.31.0",
+        "cosmiconfig": "^8.0.0",
+        "defu": "^6.1.1",
+        "eslint": "^8.28.0",
+        "eslint-plugin-unused-imports": "^2.0.0",
+        "imagemin": "^8.0.1",
+        "pretty-bytes": "^6.0.0",
+        "util.promisify": "^1.1.1",
+        "vite": "^3.2.4",
+        "vitest": "^0.25.2"
+    },
+    "optionalDependencies": {
+        "imagemin-gifsicle": "^7.0.0",
+        "imagemin-mozjpeg": "^10.0.0",
+        "imagemin-optipng": "^8.0.0",
+        "imagemin-svgo": "^10.0.1",
+        "imagemin-webp": "^7.0.0"
+    },
+    "engines": {
+        "node": ">=14"
+    },
+    "pnpm": {
+        "overrides": {
+            "svgo": "^3.0.0",
+            "uuid": "^8.0.0"
+        }
     }
 }
