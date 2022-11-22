@@ -1,13 +1,13 @@
 import child_process from 'node:child_process'
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
+import util from 'node:util'
 
-import promisify from 'util.promisify'
 import { describe, expect, it } from 'vitest'
 
 import { minifyFile } from '../lib/index.mjs'
 
-const exec = promisify(child_process.exec)
+const exec = util.promisify(child_process.exec)
 
 describe('index module', () => {
 	const FILENAMES = [

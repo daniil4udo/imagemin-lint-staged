@@ -17,7 +17,6 @@ specifiers:
   imagemin-svgo: ^10.0.1
   imagemin-webp: ^7.0.0
   pretty-bytes: ^6.0.0
-  util.promisify: ^1.1.1
   vite: ^3.2.4
   vitest: ^0.25.2
 
@@ -36,7 +35,6 @@ devDependencies:
   eslint-plugin-unused-imports: 2.0.0_eslint@8.28.0
   imagemin: 8.0.1
   pretty-bytes: 6.0.0
-  util.promisify: 1.1.1
   vite: 3.2.4
   vitest: 0.25.2
 
@@ -519,17 +517,6 @@ packages:
       define-properties: 1.1.4
       es-abstract: 1.20.4
       es-shim-unscopables: 1.0.0
-    dev: true
-
-  /array.prototype.reduce/1.0.5:
-    resolution: {integrity: sha512-kDdugMl7id9COE8R7MHF5jWk7Dqt/fs4Pv+JXoICnYwqpjjjbUurz6w5fT5IG6brLdJhv6/VoHB0H7oyIBXd+Q==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: 1.0.2
-      define-properties: 1.1.4
-      es-abstract: 1.20.4
-      es-array-method-boxes-properly: 1.0.0
-      is-string: 1.0.7
     dev: true
 
   /assertion-error/1.1.0:
@@ -1170,10 +1157,6 @@ packages:
       string.prototype.trimend: 1.0.6
       string.prototype.trimstart: 1.0.6
       unbox-primitive: 1.0.2
-    dev: true
-
-  /es-array-method-boxes-properly/1.0.0:
-    resolution: {integrity: sha512-wd6JXUmyHmt8T5a2xreUwKcGPq6f1f+WwIJkijUqiGcJz1qqnZgP6XIK+QyIWU5lT7imeNxUll48bziG+TSYcA==}
     dev: true
 
   /es-shim-unscopables/1.0.0:
@@ -2031,12 +2014,6 @@ packages:
 
   /flatted/3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
-    dev: true
-
-  /for-each/0.3.3:
-    resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
-    dependencies:
-      is-callable: 1.2.7
     dev: true
 
   /from2/2.3.0:
@@ -3046,16 +3023,6 @@ packages:
       object-keys: 1.1.1
     dev: true
 
-  /object.getownpropertydescriptors/2.1.5:
-    resolution: {integrity: sha512-yDNzckpM6ntyQiGTik1fKV1DcVDRS+w8bvpWNCBanvH5LfRX9O8WTHqQzG4RZwRAM4I0oU7TV11Lj5v0g20ibw==}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      array.prototype.reduce: 1.0.5
-      call-bind: 1.0.2
-      define-properties: 1.1.4
-      es-abstract: 1.20.4
-    dev: true
-
   /object.values/1.1.6:
     resolution: {integrity: sha512-FVVTkD1vENCsAcwNs9k6jea2uHC/X0+JcjG8YA60FN5CMaJmG95wT9jek/xX9nornqGRrBkKtzuAu2wuHpKqvw==}
     engines: {node: '>= 0.4'}
@@ -4058,16 +4025,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  /util.promisify/1.1.1:
-    resolution: {integrity: sha512-/s3UsZUrIfa6xDhr7zZhnE9SLQ5RIXyYfiVnMMyMDzOc8WhWN4Nbh36H842OyurKbCDAesZOJaVyvmSl6fhGQw==}
-    dependencies:
-      call-bind: 1.0.2
-      define-properties: 1.1.4
-      for-each: 0.3.3
-      has-symbols: 1.0.3
-      object.getownpropertydescriptors: 2.1.5
-    dev: true
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
