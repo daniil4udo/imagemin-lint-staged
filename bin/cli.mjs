@@ -2,25 +2,26 @@
 import { minifyFile } from '../lib/index.mjs'
 
 export async function cli(filenames) {
-	try {
-		return Promise.all(
-			filenames.map(async (filename) => {
-				console.log(`🛠 >> Optimizing ${filename}...`)
+	return Promise.all(
+		filenames.map(async (filename) => {
+			console.log(`🚀 >> Optimizing "${filename}"...\n`)
 
-				const { saved, originalSize, optimizedSize } = await minifyFile(filename)
+			const fileSize = await minifyFile(filename)
+
+			if (fileSize) {
+				const { saved, originalSize, optimizedSize } = fileSize
 
 				console.log(
 					saved[0] > 0
-						? `✅ >> Saved ${saved[1]} on ${filename} (${originalSize[1]} → ${optimizedSize[1]})`
-						: `🤍 >> ${filename} is already optimized at ${originalSize[1]}`,
+						? `✅ >> Saved ${saved[1]} on ${filename} (${originalSize[1]} → ${optimizedSize[1]})\n`
+						: `🤍 >> ${filename} is already optimized at ${originalSize[1]}\n`,
 				)
-			}),
-		)
-	}
-	catch (error) {
-		console.error('🛑 >> ', error)
-		process.exit(1)
-	}
+			}
+			else {
+				console.log(`⚠️  >> There must be some error optimizing "${filename}"! Skipping...\n`)
+			}
+		}),
+	)
 }
 
 await cli(process.argv.slice(2))
