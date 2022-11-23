@@ -33,8 +33,9 @@
         "imagemin-optipng": "^8.0.0",
         "imagemin-svgo": "^10.0.1",
         "imagemin-webp": "^7.0.0",
+        "typescript": "^4.9.3",
         "vite": "^3.2.4",
-        "vitest": "^0.25.2"
+        "vitest": "^0.25.3"
     },
     "peerDependencies": {
         "imagemin-gifsicle": "^7.0.0",
