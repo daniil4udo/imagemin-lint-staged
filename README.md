@@ -67,6 +67,16 @@ Your configuration will be merged with the [default configuration](./default-con
 
 **Remember to install the imagemin plugins you use**. You'll get a warning if their is configuration, but the plugin is missing.
 
+At some cases imagemin plugins won't be able to process your image. In order to omit these files, set `$_silentErrors` to true
+
+```json
+{
+  "imagemin": {
+    "$_silentErrors": true,
+  }
+}
+```
+
 If you would like to get more details about the savings, add the `--verbose` flag to `lint-staged`.
 
 ## Contributing
