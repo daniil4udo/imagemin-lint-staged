@@ -5,11 +5,10 @@ overrides:
   uuid: ^8.0.0
 
 specifiers:
-  '@antfu/eslint-config': ^0.31.0
+  '@democrance/eslint-config': ^0.3.1
   cosmiconfig: ^8.0.0
   defu: ^6.1.1
   eslint: ^8.28.0
-  eslint-plugin-unused-imports: ^2.0.0
   imagemin: ^8.0.1
   imagemin-gifsicle: ^7.0.0
   imagemin-mozjpeg: ^10.0.0
@@ -28,9 +27,8 @@ dependencies:
   pretty-bytes: 6.0.0
 
 devDependencies:
-  '@antfu/eslint-config': 0.31.0_hsf322ms6xhhd4b5ne6lb74y4a
+  '@democrance/eslint-config': 0.3.1_hsf322ms6xhhd4b5ne6lb74y4a
   eslint: 8.28.0
-  eslint-plugin-unused-imports: 2.0.0_eslint@8.28.0
   imagemin-gifsicle: 7.0.0
   imagemin-mozjpeg: 10.0.0
   imagemin-optipng: 8.0.0
@@ -148,6 +146,24 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       chalk: 2.4.2
       js-tokens: 4.0.0
+
+  /@democrance/eslint-config/0.3.1_hsf322ms6xhhd4b5ne6lb74y4a:
+    resolution: {integrity: sha512-/Hji0ok8VF2wgNIjXzikknMnHufG6YrXXd2La7ONrPt32ntjwGYOIWKBKfvdzNSsLEGliOZAAENrlXOef3Tpzg==}
+    peerDependencies:
+      eslint: '>=8.0.0'
+    dependencies:
+      '@antfu/eslint-config': 0.31.0_hsf322ms6xhhd4b5ne6lb74y4a
+      eslint: 8.28.0
+      eslint-import-resolver-alias: 1.1.2
+      eslint-plugin-unused-imports: 2.0.0_eslint@8.28.0
+    transitivePeerDependencies:
+      - '@typescript-eslint/eslint-plugin'
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - eslint-plugin-import
+      - supports-color
+      - typescript
+    dev: true
 
   /@esbuild/android-arm/0.15.15:
     resolution: {integrity: sha512-JJjZjJi2eBL01QJuWjfCdZxcIgot+VoK6Fq7eKF9w4YHm9hwl7nhBR1o2Wnt/WcANk5l9SkpvrldW1PLuXxcbw==}
@@ -1345,6 +1361,13 @@ packages:
   /escape-string-regexp/4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-import-resolver-alias/1.1.2:
+    resolution: {integrity: sha512-WdviM1Eu834zsfjHtcGHtGfcu+F30Od3V7I9Fi57uhBEwPkjDcii7/yW8jAT+gOhn4P/vOxxNAXbFAKsrrc15w==}
+    engines: {node: '>= 4'}
+    peerDependencies:
+      eslint-plugin-import: '>=1.4.0'
     dev: true
 
   /eslint-import-resolver-node/0.3.6:
