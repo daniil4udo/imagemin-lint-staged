@@ -1,0 +1,34 @@
+{
+	"extends": "@vue/tsconfig/tsconfig.node.json",
+    "include": [
+        "env.d.ts",
+        "./lib/*.ts",
+        "./bin/*.ts",
+    ],
+    "exclude": [
+        "dist",
+        "node_modules",
+        "tests/*"
+    ],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "target": "ESNext",
+        "module": "ESNext",
+        "strict": true,
+        "pretty": true,
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "importHelpers": true,
+        "importsNotUsedAsValues": "error",
+        "isolatedModules": true,
+        "skipLibCheck": true,
+        "types": [
+            "node",
+
+            "defu",
+            "unbuild",
+            "cosmiconfig"
+        ]
+    },
+}

@@ -9,12 +9,12 @@
     "license": "MIT",
     "author": "Daniil Chumachenko <daniil4udo@gmail.com>",
     "type": "module",
-    "main": "./lib/index.mjs",
     "bin": {
-        "image-lint-staged": "./bin/cli.mjs",
-        "imagemin-lint-staged": "./bin/cli.mjs"
+        "image-lint-staged": "./dist/cli.mjs",
+        "imagemin-lint-staged": "./dist/cli.mjs"
     },
     "scripts": {
+        "build": "rm -rf dist && unbuild",
         "lint": "eslint --ext .vue,.ts,.js,.mjs .",
         "test": "rm -rf tests/__snapshots__/index.spec.js.snap && vitest"
     },
@@ -25,7 +25,14 @@
         "pretty-bytes": "^6.0.0"
     },
     "devDependencies": {
-        "@democrance/eslint-config": "^0.3.1",
+        "@democrance/eslint-config": "^0.4.0",
+        "@types/imagemin-gifsicle": "^7.0.1",
+        "@types/imagemin-mozjpeg": "^8.0.1",
+        "@types/imagemin-optipng": "^5.2.1",
+        "@types/imagemin-svgo": "^10.0.2",
+        "@types/imagemin-webp": "^7.0.0",
+        "@types/node": "^16.18.4",
+        "@vue/tsconfig": "^0.1.3",
         "eslint": "^8.28.0",
         "imagemin-gifsicle": "^7.0.0",
         "imagemin-mozjpeg": "^10.0.0",
@@ -33,7 +40,7 @@
         "imagemin-svgo": "^10.0.1",
         "imagemin-webp": "^7.0.0",
         "typescript": "^4.9.3",
-        "vite": "^3.2.4",
+        "unbuild": "^1.0.1",
         "vitest": "^0.25.3"
     },
     "peerDependencies": {
@@ -48,6 +55,7 @@
     },
     "pnpm": {
         "overrides": {
+            "rollup": "^3.0.0",
             "svgo": "^3.0.0",
             "uuid": "^8.0.0"
         }
