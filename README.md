@@ -2,7 +2,6 @@
 # @democrance/imagemin-lint-staged
 [![package version](https://img.shields.io/npm/v/@democrance/imagemin-lint-staged.svg?style=flat-square)](https://npmjs.org/package/@democrance/imagemin-lint-staged)
 [![package downloads](https://img.shields.io/npm/dm/@democrance/imagemin-lint-staged.svg?style=flat-square)](https://npmjs.org/package/@democrance/imagemin-lint-staged)
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![package license](https://img.shields.io/npm/l/@democrance/imagemin-lint-staged.svg?style=flat-square)](https://npmjs.org/package/@democrance/imagemin-lint-staged)
 
 Easily configure [imagemin](https://github.com/imagemin) to work with [lint-staged](https://github.com/okonet/lint-staged)
@@ -21,13 +20,13 @@ Easily configure [imagemin](https://github.com/imagemin) to work with [lint-stag
 Install the package locally within you project folder with your package manager:
 
 ```sh
-$ npm install -D @democrance/imagemin-lint-staged
+$ pnpm install -D @democrance/imagemin-lint-staged
 ```
 
-You also need to install the default plugins unless you explicity want to override them:
+You also need to install the default plugins unless you explicitly want to override them:
 
 ```sh
-$ npm install -D imagemin-gifsicle imagemin-mozjpeg imagemin-svgo imagemin-optipng
+$ pnpm install -D imagemin-gifsicle imagemin-mozjpeg imagemin-svgo imagemin-optipng
 ```
 
 ## Usage
@@ -72,7 +71,7 @@ At some cases imagemin plugins won't be able to process your image. In order to 
 ```json
 {
   "imagemin": {
-    "$_silentErrors": true,
+    "$_silentErrors": true
   }
 }
 ```
@@ -81,7 +80,7 @@ If you would like to get more details about the savings, add the `--verbose` fla
 
 ## Contributing
 
-Got an idea for a new feature? Found a bug? Contributions are welcome! Please [open up an issue](https://github.com/tiaanduplessis/@democrance/imagemin-lint-staged/issues) or [make a pull request](https://makeapullrequest.com/).
+Got an idea for a new feature? Found a bug? Contributions are welcome! Please [open up an issue](https://github.com/daniil4udo/imagemin-lint-staged) or [make a pull request](https://makeapullrequest.com/).
 
 ## License
 
