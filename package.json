@@ -31,17 +31,17 @@
         "@types/imagemin-optipng": "^5.2.1",
         "@types/imagemin-svgo": "^10.0.2",
         "@types/imagemin-webp": "^7.0.0",
-        "@types/node": "^16.18.4",
+        "@types/node": "^16.18.6",
         "@vue/tsconfig": "^0.1.3",
-        "eslint": "^8.28.0",
+        "eslint": "^8.29.0",
         "imagemin-gifsicle": "^7.0.0",
         "imagemin-mozjpeg": "^10.0.0",
         "imagemin-optipng": "^8.0.0",
         "imagemin-svgo": "^10.0.1",
         "imagemin-webp": "^7.0.0",
         "typescript": "^4.9.3",
-        "unbuild": "^1.0.1",
-        "vitest": "^0.25.3"
+        "unbuild": "^1.0.2",
+        "vitest": "^0.25.5"
     },
     "peerDependencies": {
         "imagemin-gifsicle": "^7.0.0",
