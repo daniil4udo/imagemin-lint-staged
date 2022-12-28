@@ -4,8 +4,8 @@ import type { Plugin as ImageminPlugin } from 'imagemin'
 import { readFile, writeFile } from 'node:fs/promises'
 import { extname } from 'node:path'
 
+import { getCtor, defaultsDeep } from '@democrance/utils'
 import { cosmiconfig } from 'cosmiconfig'
-import merge from 'defu'
 import imagemin from 'imagemin'
 import prettyBytes from 'pretty-bytes'
 
@@ -13,7 +13,6 @@ import defaultConf from './default-conf'
 
 const SUPPORTED_EXTENSIONS = [ '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp' ]
 const MODULE_NAME = 'imagemin'
-
 
 const getExtension = (name: string) => extname(name).toLowerCase()
 
@@ -37,18 +36,6 @@ const getSavings = (originalFile: Buffer, newFile: Buffer): Savings => {
         optimizedSize: [ optimizedSize, prettyBytes(optimizedSize) ],
         saved: [ saved, prettyBytes(saved) ],
     }
-}
-
-/**
- *
- * @param {Object} comp get default import if passed ES Module
- */
-const getCtor = (comp: any) => {
-    if (comp && (comp.__esModule || comp[Symbol.toStringTag] === 'Module'))
-    // if (comp && (comp.__esModule & comp.default))
-        return comp.default
-
-    return comp
 }
 
 /**
@@ -95,7 +82,7 @@ const mapPlugin = (configs: ImageminLintStageConfig) => {
 const getConfig = (moduleName = MODULE_NAME): Promise<ImageminLintStageConfig> => {
     return cosmiconfig(moduleName)
         .search()
-        .then(result => merge(defaultConf, result?.config || {}))
+        .then(result => defaultsDeep(defaultConf, result?.config || {}))
 }
 
 /**
