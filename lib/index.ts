@@ -4,7 +4,7 @@ import type { Plugin as ImageminPlugin } from 'imagemin'
 import { readFile, writeFile } from 'node:fs/promises'
 import { extname } from 'node:path'
 
-import { getCtor, defaultsDeep } from '@democrance/utils'
+import { defaultsDeep, getCtor } from '@democrance/utils'
 import { cosmiconfig } from 'cosmiconfig'
 import imagemin from 'imagemin'
 import prettyBytes from 'pretty-bytes'
@@ -22,11 +22,11 @@ const getExtension = (name: string) => extname(name).toLowerCase()
  * @param {Buffer} newFile - New file Buffer
  */
 interface Savings {
-    originalSize: [ number, string ]
-    optimizedSize: [ number, string ]
-    saved: [ number, string ]
+    originalSize: [ number, string ];
+    optimizedSize: [ number, string ];
+    saved: [ number, string ];
 }
-const getSavings = (originalFile: Buffer, newFile: Buffer): Savings => {
+function getSavings(originalFile: Buffer, newFile: Buffer): Savings {
     const originalSize = originalFile.length
     const optimizedSize = newFile.length
     const saved = originalSize - optimizedSize
@@ -44,7 +44,7 @@ const getSavings = (originalFile: Buffer, newFile: Buffer): Savings => {
  * @param {Object} config - config for the imagemin-
  */
 type ImageminPluginImport = (options?: any) => ImageminPlugin
-const findPlugin = async (plugin: string, config: ImageminLintStageConfig): Promise<ImageminPlugin | null> => {
+async function findPlugin(plugin: string, config: ImageminLintStageConfig): Promise<ImageminPlugin | null> {
     try {
         if (typeof plugin === 'string' && plugin.startsWith('$_'))
             return Promise.resolve(null)
@@ -62,7 +62,7 @@ const findPlugin = async (plugin: string, config: ImageminLintStageConfig): Prom
  *
  * @param {Object} configs - resolved configs from the cosmiconfig
  */
-const mapPlugin = (configs: ImageminLintStageConfig) => {
+function mapPlugin(configs: ImageminLintStageConfig) {
     const plugins = Object
         .entries(configs)
         .reduce((plugins: Promise<ImageminPlugin | null>[], [ pluginName, config ]) => {
@@ -79,7 +79,7 @@ const mapPlugin = (configs: ImageminLintStageConfig) => {
  *
  * @param {String} moduleName - cosmiconfig configuration name
  */
-const getConfig = (moduleName = MODULE_NAME): Promise<ImageminLintStageConfig> => {
+function getConfig(moduleName = MODULE_NAME): Promise<ImageminLintStageConfig> {
     return cosmiconfig(moduleName)
         .search()
         .then(result => defaultsDeep(defaultConf, result?.config || {}))

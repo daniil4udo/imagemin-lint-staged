@@ -8,7 +8,6 @@
 
 /// <reference types="@democrance/utils" />
 /// <reference types="cosmiconfig" />
-/// <reference types="defu" />
 /// <reference types="pretty-bytes" />
 /// <reference types="unbuild" />
 

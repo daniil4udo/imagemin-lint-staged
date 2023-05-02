@@ -1,5 +1,6 @@
+// https://github.com/vuejs/tsconfig#configuration-for-node-environments
 {
-	"extends": "@vue/tsconfig/tsconfig.node.json",
+	"extends": "@tsconfig/node18/tsconfig.json",
     "include": [
         "env.d.ts",
         "./lib/*.ts",
@@ -20,7 +21,6 @@
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "importHelpers": true,
-        "importsNotUsedAsValues": "error",
         "isolatedModules": true,
         "skipLibCheck": true
     },

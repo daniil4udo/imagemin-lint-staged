@@ -5,13 +5,13 @@ import type { Options as ImageminSvgo } from 'imagemin-svgo'
 import type { Options as ImageminWebp } from 'imagemin-webp'
 
 export interface ImageminLintStageConfig {
-    $_silentErrors?: boolean
+    $_silentErrors?: boolean;
 
-    gifsicle?: ImageminGifsicle
-    mozjpeg?: 'auto' | ImageminMozjpeg
-    optipng?: ImageminOptipng
-    svgo?: ImageminSvgo
-    webp?: ImageminWebp
+    gifsicle?: ImageminGifsicle;
+    mozjpeg?: 'auto' | ImageminMozjpeg;
+    optipng?: ImageminOptipng;
+    svgo?: ImageminSvgo;
+    webp?: ImageminWebp;
 }
 
 export function defineImageminLintStageConfig(config: ImageminLintStageConfig) {
