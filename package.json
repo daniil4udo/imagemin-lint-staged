@@ -16,6 +16,8 @@
     "scripts": {
         "build": "rm -rf dist && unbuild",
         "lint": "eslint --ext .vue,.ts,.js,.mjs .",
+        "prepublishOnly": "pnpm build",
+        "release": "bumpp --commit --tag --no-push && pnpm publish --access public",
         "test": "rm -rf tests/__snapshots__/index.spec.js.snap && vitest"
     },
     "dependencies": {
@@ -34,6 +36,7 @@
         "@types/imagemin-webp": "^7.0.0",
         "@types/node": "^18.16.3",
         "@vue/tsconfig": "^0.3.2",
+        "bumpp": "^9.1.0",
         "eslint": "^8.39.0",
         "imagemin-gifsicle": "^7.0.0",
         "imagemin-mozjpeg": "^10.0.0",
