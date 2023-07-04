@@ -1,21 +1,21 @@
-import type { Options as ImageminGifsicle } from 'imagemin-gifsicle'
-import type { Options as ImageminMozjpeg } from 'imagemin-mozjpeg'
-import type { Options as ImageminOptipng } from 'imagemin-optipng'
-import type { Options as ImageminSvgo } from 'imagemin-svgo'
-import type { Options as ImageminWebp } from 'imagemin-webp'
+import type { Options as ImageminGifsicle } from 'imagemin-gifsicle';
+import type { Options as ImageminMozjpeg } from 'imagemin-mozjpeg';
+import type { Options as ImageminOptipng } from 'imagemin-optipng';
+import type { Options as ImageminSvgo } from 'imagemin-svgo';
+import type { Options as ImageminWebp } from 'imagemin-webp';
 
 export interface ImageminLintStageConfig {
-    $_silentErrors?: boolean;
+    $_silentErrors?: boolean
 
-    gifsicle?: ImageminGifsicle;
-    mozjpeg?: 'auto' | ImageminMozjpeg;
-    optipng?: ImageminOptipng;
-    svgo?: ImageminSvgo;
-    webp?: ImageminWebp;
+    gifsicle?: ImageminGifsicle
+    mozjpeg?: 'auto' | ImageminMozjpeg
+    optipng?: ImageminOptipng
+    svgo?: ImageminSvgo
+    webp?: ImageminWebp
 }
 
 export function defineImageminLintStageConfig(config: ImageminLintStageConfig) {
-    return config
+    return config;
 }
 
 export default defineImageminLintStageConfig({
@@ -53,4 +53,4 @@ export default defineImageminLintStageConfig({
     webp: {
         quality: 75,
     },
-})
+});

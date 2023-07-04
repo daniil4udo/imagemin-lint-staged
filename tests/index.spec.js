@@ -1,13 +1,13 @@
-import child_process from 'node:child_process'
-import { stat } from 'node:fs/promises'
-import path from 'node:path'
-import util from 'node:util'
+import child_process from 'node:child_process';
+import { stat } from 'node:fs/promises';
+import path from 'node:path';
+import util from 'node:util';
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest';
 
-import { imageminMinify } from '../lib/'
+import { imageminMinify } from '../lib/';
 
-const exec = util.promisify(child_process.exec)
+const exec = util.promisify(child_process.exec);
 
 describe('index module', () => {
     const FILENAMES = [
@@ -15,31 +15,31 @@ describe('index module', () => {
         './__fixtures__/test.jpg',
         './__fixtures__/test.png',
         './__fixtures__/test.svg',
-    ]
+    ];
 
     const stats = () =>
         Promise.all(
-            FILENAMES.map(async (f) => {
-                const { size } = await stat(path.resolve(__dirname, f))
-                return { f, size }
+            FILENAMES.map(async f => {
+                const { size } = await stat(path.resolve(__dirname, f));
+                return { f, size };
             }),
-        )
+        );
 
     describe('minifyFile function', () => {
         it('should work as expected', async () => {
-            const before = await stats()
+            const before = await stats();
 
             await Promise.all(
                 FILENAMES.map(f => imageminMinify(path.resolve(__dirname, f))),
-            )
+            );
 
-            const after = await stats()
+            const after = await stats();
 
-            await exec('git checkout .')
-            expect(after).not.toEqual(before)
+            await exec('git checkout .');
+            expect(after).not.toEqual(before);
 
-            expect(before).toMatchSnapshot()
-            expect(after).toMatchSnapshot()
-        })
-    })
-})
+            expect(before).toMatchSnapshot();
+            expect(after).toMatchSnapshot();
+        });
+    });
+});
