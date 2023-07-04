@@ -52,7 +52,24 @@
         "imagemin-mozjpeg": "^10.0.0",
         "imagemin-optipng": "^8.0.0",
         "imagemin-svgo": "^10.0.1",
-        "imagemin-webp": "^7.0.0"
+        "imagemin-webp": "^8.0.0"
+    },
+    "peerDependenciesMeta": {
+        "imagemin-gifsicle": {
+            "optional": true
+        },
+        "imagemin-mozjpeg": {
+            "optional": true
+        },
+        "imagemin-optipng": {
+            "optional": true
+        },
+        "imagemin-svgo": {
+            "optional": true
+        },
+        "imagemin-webp": {
+            "optional": true
+        }
     },
     "engines": {
         "node": ">=14"
