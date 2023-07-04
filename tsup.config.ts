@@ -11,7 +11,7 @@ export default defineConfig({
     dts: true, // generate dts file for main module
     skipNodeModulesBundle: true,
     splitting: true,
-    target: 'es2020',
+    target: 'node16',
     // esbuildOptions: options => {
     //     options.footer = {
     //         // This will ensure we can continue writing this plugin
