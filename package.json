@@ -21,31 +21,31 @@
         "test": "rm -rf tests/__snapshots__/index.spec.js.snap && vitest"
     },
     "dependencies": {
-        "@democrance/utils": "^0.9.1",
-        "cosmiconfig": "^8.1.3",
+        "@democrance/utils": "^0.12.0",
+        "cosmiconfig": "^8.2.0",
         "imagemin": "^8.0.1",
         "pretty-bytes": "^6.1.0"
     },
     "devDependencies": {
-        "@democrance/eslint-config": "^0.5.1",
-        "@tsconfig/node18": "^2.0.0",
+        "@democrance/eslint-config": "^0.8.0",
+        "@tsconfig/node18": "^18.2.0",
         "@types/imagemin-gifsicle": "^7.0.1",
         "@types/imagemin-mozjpeg": "^8.0.1",
         "@types/imagemin-optipng": "^5.2.1",
         "@types/imagemin-svgo": "^10.0.2",
         "@types/imagemin-webp": "^7.0.0",
-        "@types/node": "^18.16.3",
-        "@vue/tsconfig": "^0.3.2",
-        "bumpp": "^9.1.0",
-        "eslint": "^8.39.0",
+        "@types/node": "^18.16.19",
+        "@vue/tsconfig": "^0.4.0",
+        "bumpp": "^9.1.1",
+        "eslint": "^8.44.0",
         "imagemin-gifsicle": "^7.0.0",
         "imagemin-mozjpeg": "^10.0.0",
         "imagemin-optipng": "^8.0.0",
         "imagemin-svgo": "^10.0.1",
         "imagemin-webp": "^8.0.0",
-        "typescript": "^5.0.4",
+        "typescript": "^5.1.6",
         "unbuild": "^1.2.1",
-        "vitest": "^0.30.1"
+        "vitest": "^0.32.4"
     },
     "peerDependencies": {
         "imagemin-gifsicle": "^7.0.0",
