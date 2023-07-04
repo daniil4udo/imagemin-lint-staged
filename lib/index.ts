@@ -71,7 +71,8 @@ async function findPlugin(plugin: string, config: ImageminLintStageConfig): Prom
             return Promise.resolve(null);
 
         const pluginImport: ImageminPluginImport = await import(`imagemin-${plugin}`);
-        return getCtor(pluginImport)(config);
+
+        return (getCtor(pluginImport) as ImageminPluginImport)(config);
     }
     catch {
         console.error(`🔴 Plugin "imagemin-${plugin}" is not installed.\nPlease install it using your package manager.\n`);

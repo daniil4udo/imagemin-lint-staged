@@ -13,8 +13,8 @@
     ],
     "compilerOptions": {
         "baseUrl": ".",
-        "target": "ESNext",
-        "module": "ESNext",
+        "target": "ES2020",
+        "module": "NodeNext",
         "strict": true,
         "pretty": true,
         "allowJs": true,
