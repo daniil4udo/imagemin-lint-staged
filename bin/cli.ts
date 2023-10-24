@@ -1,26 +1,32 @@
 #!/usr/bin/env node
-import { imageminMinify } from '../lib/';
+
+import type { ImageMinifyConfig } from '../lib/types';
+
+import { defaultsDeep } from '@democrance/utils';
+import { cosmiconfig } from 'cosmiconfig';
+
+import { imageMinify } from '../lib';
+import { DEFAULT_CONFIGS } from '../lib/default-conf';
+
+/**
+ * The default module name.
+ */
+const CONFIG_NAME = 'imagemin';
+
+/**
+ * A function that gets configuration for the imagemin module.
+ * @param moduleName - The name of the module (default is 'imagemin').
+ * @returns A Promise that resolves to the configuration for the imagemin module.
+ */
+async function getConfig(moduleName = CONFIG_NAME): Promise<ImageMinifyConfig> {
+    const result = await cosmiconfig(moduleName).search();
+    return defaultsDeep(DEFAULT_CONFIGS, result?.config || {});
+}
 
 export async function cli(filenames: string[]) {
+    const configs = await getConfig();
     return Promise.all(
-        filenames.map(async filename => {
-            console.log(`🚀 Optimizing "${filename}"...\n`);
-
-            const fileSize = await imageminMinify(filename);
-
-            if (fileSize) {
-                const { saved, originalSize, optimizedSize } = fileSize;
-
-                console.log(
-                    saved[0] > 0
-                        ? `✅ Saved ${saved[1]} on ${filename} (${originalSize[1]} → ${optimizedSize[1]})\n`
-                        : `🤍 ${filename} is already optimized at ${originalSize[1]}\n`,
-                );
-            }
-            else {
-                console.log(`🟠 There must be some error optimizing "${filename}"! Skipping...\n`);
-            }
-        }),
+        filenames.map(filename => imageMinify(filename, configs)),
     );
 }
 

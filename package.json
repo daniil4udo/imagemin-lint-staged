@@ -21,64 +21,23 @@
         "test": "rimraf tests/__snapshots__/index.spec.js.snap && vitest"
     },
     "dependencies": {
-        "@democrance/utils": "^0.12.0",
-        "cosmiconfig": "^8.2.0",
-        "imagemin": "^8.0.1",
-        "pretty-bytes": "^6.1.0"
+        "@democrance/utils": "^0.20.1",
+        "cosmiconfig": "^9.0.0",
+        "pretty-bytes": "^6.1.1",
+        "sharp": "^0.33.3",
+        "svgo": "^3.3.2"
     },
     "devDependencies": {
-        "@democrance/eslint-config": "^0.8.0",
-        "@tsconfig/node18": "^2.0.1",
-        "@types/imagemin-gifsicle": "^7.0.1",
-        "@types/imagemin-mozjpeg": "^8.0.1",
-        "@types/imagemin-optipng": "^5.2.1",
-        "@types/imagemin-svgo": "^10.0.2",
-        "@types/imagemin-webp": "^7.0.0",
-        "@types/node": "^18.16.19",
-        "@vue/tsconfig": "^0.4.0",
-        "bumpp": "^9.1.1",
-        "eslint": "^8.44.0",
-        "imagemin-gifsicle": "^7.0.0",
-        "imagemin-mozjpeg": "^10.0.0",
-        "imagemin-optipng": "^8.0.0",
-        "imagemin-svgo": "^10.0.1",
-        "imagemin-webp": "^8.0.0",
-        "tsup": "^7.1.0",
-        "typescript": "~5.0.3",
-        "vitest": "^0.32.4"
-    },
-    "peerDependencies": {
-        "imagemin-gifsicle": "^7.0.0",
-        "imagemin-mozjpeg": "^10.0.0",
-        "imagemin-optipng": "^8.0.0",
-        "imagemin-svgo": "^10.0.1",
-        "imagemin-webp": "^8.0.0"
-    },
-    "peerDependenciesMeta": {
-        "imagemin-gifsicle": {
-            "optional": true
-        },
-        "imagemin-mozjpeg": {
-            "optional": true
-        },
-        "imagemin-optipng": {
-            "optional": true
-        },
-        "imagemin-svgo": {
-            "optional": true
-        },
-        "imagemin-webp": {
-            "optional": true
-        }
+        "@democrance/eslint-config": "^0.11.1",
+        "@tsconfig/node18": "^18.2.4",
+        "@types/node": "^20.12.11",
+        "bumpp": "^9.4.1",
+        "eslint": "^8.57.0",
+        "tsup": "^8.0.2",
+        "typescript": "~5.3.3",
+        "vitest": "^1.6.0"
     },
     "engines": {
-        "node": ">=16"
-    },
-    "pnpm": {
-        "overrides": {
-            "rollup": "^3.0.0",
-            "svgo": "^3.0.0",
-            "uuid": "^8.0.0"
-        }
+        "node": ">=18"
     }
 }

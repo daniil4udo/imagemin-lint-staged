@@ -1,38 +1,20 @@
-import type { ImageminLintStageConfig } from './default-conf';
-import type { Plugin as ImageminPlugin } from 'imagemin';
+import type { ImageMinifyConfig, Savings } from './types';
 
+import { Buffer } from 'node:buffer';
 import { readFile, writeFile } from 'node:fs/promises';
-import { extname } from 'node:path';
 
-import { defaultsDeep, getCtor, toLower } from '@democrance/utils';
-import { cosmiconfig } from 'cosmiconfig';
-import imagemin from 'imagemin';
+import { isNumber } from '@democrance/utils';
 import prettyBytes from 'pretty-bytes';
+import sharp from 'sharp';
+import { optimize as svgOptimize } from 'svgo';
 
-import defaultConf from './default-conf';
-
-/**
- * The list of supported image file extensions.
- */
-const SUPPORTED_EXTENSIONS = [ '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp' ];
-
-/**
- * The default module name.
- */
-const MODULE_NAME = 'imagemin';
+import { DEFAULT_CONFIGS } from './default-conf';
 
 /**
  * A function that returns the extension of a file name.
  * @param name - The name of the file.
  * @returns The extension of the file.
  */
-const getExtension = (name: string) => toLower(extname(name));
-
-interface Savings {
-    originalSize: [ number, string ]
-    optimizedSize: [ number, string ]
-    saved: [ number, string ]
-}
 
 /**
  * A function that calculates the savings after optimizing an image file.
@@ -53,91 +35,76 @@ function getSavings(originalFile: Buffer, newFile: Buffer): Savings {
 }
 
 /**
- *
- * @param {String} plugin - name of the imagemin plugin (without "imagemin-" prefix)
- * @param {Object} config - config for the imagemin-
- */
-type ImageminPluginImport = (options?: any) => ImageminPlugin;
-
-/**
- * A function that finds an imagemin plugin.
- * @param plugin - The name of the imagemin plugin.
- * @param config - The configuration for the imagemin plugin.
- * @returns A Promise that resolves to the imagemin plugin or null.
- */
-async function findPlugin(plugin: string, config: ImageminLintStageConfig): Promise<ImageminPlugin | null> {
-    try {
-        if (typeof plugin === 'string' && plugin.startsWith('$_'))
-            return Promise.resolve(null);
-
-        const pluginImport: ImageminPluginImport = await import(`imagemin-${plugin}`);
-
-        return (getCtor(pluginImport) as ImageminPluginImport)(config);
-    }
-    catch {
-        console.error(`🔴 Plugin "imagemin-${plugin}" is not installed.\nPlease install it using your package manager.\n`);
-        return Promise.resolve(null);
-    }
-}
-
-/**
- * A function that maps plugins based on configuration.
- * @param configs - The configuration for the imagemin plugins.
- * @returns A Promise that resolves to the list of valid plugins.
- */
-function mapPlugin(configs: ImageminLintStageConfig) {
-    const plugins = Object
-        .entries(configs)
-        .reduce((plugins: Promise<ImageminPlugin | null>[], [ pluginName, config ]) => {
-            if (config)
-                plugins.push(findPlugin(pluginName, config));
-
-            return plugins;
-        }, []);
-
-    return Promise.all(plugins).then(res => res.filter(Boolean));
-}
-
-/**
- * A function that gets configuration for the imagemin module.
- * @param moduleName - The name of the module (default is 'imagemin').
- * @returns A Promise that resolves to the configuration for the imagemin module.
- */
-function getConfig(moduleName = MODULE_NAME): Promise<ImageminLintStageConfig> {
-    return cosmiconfig(moduleName)
-        .search()
-        .then(result => defaultsDeep(defaultConf, result?.config || {}));
-}
-
-/**
  * A function that minifies an image file using imagemin.
- * @param filename - The name of the file to be minified.
+ * @param filePath - The name of the file to be minified.
  * @returns A Promise that resolves to the savings data or null in case of error.
  */
-export async function imageminMinify(filename: string) {
-    const configs = await getConfig();
-    const plugins = await mapPlugin(configs) as ImageminPlugin[];
-    const extension = getExtension(filename);
-
+export async function imageMinify(filePath: string, configs: ImageMinifyConfig = DEFAULT_CONFIGS) {
     try {
-        if (!SUPPORTED_EXTENSIONS.includes(extension))
-            throw new Error(`Invalid extensions "${extension}" found.`);
+        const originalFileBuffer = await readFile(filePath);
 
-        const originalFile = await readFile(filename);
-        const minifiedFile = await imagemin.buffer(originalFile, { plugins });
+        const sharpInstance = sharp(originalFileBuffer);
 
-        if (minifiedFile.length < originalFile.length)
-            await writeFile(filename, minifiedFile);
-        else
-            console.log(`🟠 Your MINIFIED file is bigger then ORIGINAL "${filename}"\nSkipping... Tweak your configs and try again\n`);
+        let minifiedFileBuffer: Buffer;
 
-        return getSavings(originalFile, minifiedFile);
+        // Let try to get file format first
+        const { format } = await sharpInstance.metadata();
+        if (!format) {
+            return Promise.reject(
+                new TypeError(`🔴 [imageMinify]: ${filePath}\n🔴 [error]: Invalid image format`),
+            );
+        }
+
+        // Use SVGO for SVG files
+        if (format === 'svg') {
+            // Optimize SVG
+            const optimizedSvg = svgOptimize(originalFileBuffer.toString(), configs.$svgo);
+
+            // Create Buffer
+            minifiedFileBuffer = Buffer.from(optimizedSvg.data);
+        }
+
+        else if (format in sharpInstance) {
+            const optimizedImage = sharpInstance.toFormat(format, configs.$sharp);
+
+            // Create Buffer
+            minifiedFileBuffer = await optimizedImage.toBuffer();
+        }
+
+        else {
+            return Promise.reject(
+                new TypeError(`🔴 [imageMinify]: ${filePath}\n🔴 [error]: Unsupported image format`),
+            );
+        }
+
+        // Calculate some savings
+        const { saved, originalSize, optimizedSize } = getSavings(originalFileBuffer, minifiedFileBuffer);
+
+        // if Minified file bigger then Original
+        const isMinifiedSmaller = minifiedFileBuffer.length > originalFileBuffer.length;
+        if (isMinifiedSmaller) {
+            process.stdout.write(`🟠 Your MINIFIED file is bigger then ORIGINAL "${filePath}"\nSkipping... Tweak your configs and try again\n`);
+            return;
+        }
+        // if Minified file is less then Original, but difference is less then skipDelta
+        const isMinifiedSmallerWithDelta = isNumber(configs.skipDelta) && saved[0] < configs.skipDelta;
+        if (isMinifiedSmallerWithDelta) {
+            process.stdout.write(`🟠 Your MINIFIED DELTA is smaller then allowed threshold "${filePath}"\nSkipping... Tweak your configs and try again\n`);
+            return;
+        }
+
+        // Print out savings
+        if (configs.showSavings)
+            process.stdout.write(`✅ Saved ${saved[1]} on ${filePath} (${originalSize[1]} → ${optimizedSize[1]})\n`);
+
+        return writeFile(filePath, minifiedFileBuffer);
+        // await writeFile(`${parse(filePath).dir}/minified.${format}`, minifiedFileBuffer);
     }
     catch (error) {
-        console.error('🔴 [filename]: ', filename);
-        console.error('🔴 [error]: ', error, '\n');
+        process.stdout.write(`🔴 [path]: ${filePath}\n`);
+        process.stdout.write(`🔴 [error]: ${error}\n`);
 
-        if (!configs.$_silentErrors)
+        if (!configs.silentErrors)
             process.exit(1);
         else
             return null;

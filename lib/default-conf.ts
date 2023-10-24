@@ -1,56 +1,28 @@
-import type { Options as ImageminGifsicle } from 'imagemin-gifsicle';
-import type { Options as ImageminMozjpeg } from 'imagemin-mozjpeg';
-import type { Options as ImageminOptipng } from 'imagemin-optipng';
-import type { Options as ImageminSvgo } from 'imagemin-svgo';
-import type { Options as ImageminWebp } from 'imagemin-webp';
+import type { ImageMinifyConfig } from './types';
 
-export interface ImageminLintStageConfig {
-    $_silentErrors?: boolean
+export const DEFAULT_CONFIGS: ImageMinifyConfig = {
+    // sharp
+    $sharp: {
+        progressive: true,
+        quality: 90,
+        nearLossless: true,
+        effort: 6,
+        compressionLevel: 9,
+        force: false,
+    },
 
-    gifsicle?: ImageminGifsicle
-    mozjpeg?: 'auto' | ImageminMozjpeg
-    optipng?: ImageminOptipng
-    svgo?: ImageminSvgo
-    webp?: ImageminWebp
-}
+    // svgo
+    $svgo: {
+        multipass: true,
+    },
 
-export function defineImageminLintStageConfig(config: ImageminLintStageConfig) {
+    // Library defaults
+    skipDelta: 500,
+    silentErrors: false,
+    showSavings: true,
+};
+
+// Function to create a configuration object for the image minification process
+export function defineImageLintStageConfig<T extends Partial<ImageMinifyConfig>>(config: T) {
     return config;
 }
-
-export default defineImageminLintStageConfig({
-    $_silentErrors: true,
-
-    // https://github.com/imagemin/imagemin-gifsicle
-    gifsicle: {
-        interlaced: true,
-    },
-
-    // https://github.com/imagemin/imagemin-mozjpeg
-    mozjpeg: 'auto',
-
-    // https://github.com/imagemin/imagemin-optipng
-    optipng: {
-        optimizationLevel: 4,
-    },
-
-    // https://github.com/imagemin/imagemin-svgo
-    svgo: {
-        plugins: [
-            { name: 'removeViewBox', active: false },
-            {
-                name: 'preset-default',
-                params: {
-                    overrides: {
-                        removeViewBox: false,
-                    },
-                },
-            },
-        ],
-    },
-
-    // https://github.com/imagemin/imagemin-webp
-    webp: {
-        quality: 75,
-    },
-});
