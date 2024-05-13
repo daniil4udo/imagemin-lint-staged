@@ -23,58 +23,55 @@ Install the package locally within you project folder with your package manager:
 $ pnpm install -D @democrance/imagemin-lint-staged
 ```
 
-You also need to install the default plugins unless you explicitly want to override them:
-
-```sh
-$ pnpm install -D imagemin-gifsicle imagemin-mozjpeg imagemin-svgo imagemin-optipng
-```
-
 ## Usage
 
 Configure with [lint-staged](https://github.com/okonet/lint-staged):
 
 ```json
 {
-  "lint-staged": {
-    "*.{png,jpeg,jpg,gif,svg}": ["imagemin-lint-staged"]
-  }
-}
-```
-
-The package uses [cosmiconfig](https://www.npmjs.com/package/cosmiconfig) with the module name `imagemin` to allow you to configure the [imagemin](https://github.com/imagemin) plugins. Add the following to your `package.json`
-
-```json
-{
-  "imagemin": {
-    "optipng": {
-      "optimizationLevel": 5
+    "lint-staged": {
+        "*.{png,jpeg,jpg,gif,svg}": ["imagemin-lint-staged"]
     }
-  }
 }
 ```
 
-Your configuration will be merged with the [default configuration](./default-conf.js). If you would like to remove one of the default plugins, add the value of `null` and it will be ignored.
+The package uses [cosmiconfig](https://www.npmjs.com/package/cosmiconfig) with the module name `imagemin` to allow you to configure the [sharp](https://sharp.pixelplumbing.com/api-output#toformat) and [SVGO](https://github.com/svg/svgo?tab=readme-ov-file#configuration) plugins. Add the following to your `package.json`
 
 ```json
 {
-  "imagemin": {
-    "optipng": null,
-    "pngout": {}
-  }
+    "imagemin": {
+        // Configuration for Sharp image optimization
+        "$sharp": {
+            "progressive": true,
+            "quality": 90,
+            "nearLossless": true,
+            "effort": 6,
+            "compressionLevel": 9,
+            "force": false
+            // Add additional Sharp configurations here...
+        },
+
+        // Configuration for SVGO optimization
+        "$svgo": {
+            "multipass": true
+            // Add additional SVGO configurations here...
+        },
+
+        // Library defaults
+
+        // Minimum difference between minified & original files to trigger saving
+        "skipDelta": 500,
+
+        // Ignore errors during minification process
+        "silentErrors": false,
+
+        // Print information about saved bytes
+        "showSavings": true
+    }
 }
 ```
 
-**Remember to install the imagemin plugins you use**. You'll get a warning if their is configuration, but the plugin is missing.
-
-At some cases imagemin plugins won't be able to process your image. In order to omit these files, set `$_silentErrors` to true
-
-```json
-{
-  "imagemin": {
-    "$_silentErrors": true
-  }
-}
-```
+Your configuration will be merged with the [default configuration](./default-conf.js). 
 
 If you would like to get more details about the savings, add the `--verbose` flag to `lint-staged`.
 
