@@ -1,6 +1,6 @@
 {
     "name": "@democrance/imagemin-lint-staged",
-    "version": "2.4.0",
+    "version": "3.0.0",
     "description": "Easily configure imagemin to work with lint-staged",
     "keywords": [
         "lint-staged",
