@@ -83,13 +83,13 @@ export async function imageMinify(filePath: string, configs: ImageMinifyConfig =
         // if Minified file bigger then Original
         const isMinifiedSmaller = minifiedFileBuffer.length > originalFileBuffer.length;
         if (isMinifiedSmaller) {
-            process.stdout.write(`🟠 Your MINIFIED file is bigger then ORIGINAL "${filePath}"\nSkipping... Tweak your configs and try again\n`);
+            process.stdout.write(`🟠 Your MINIFIED file is bigger then ORIGINAL (${originalSize[1]} → ${optimizedSize[1]}) "${filePath}"\nSkipping... Tweak your configs and try again\n`);
             return;
         }
         // if Minified file is less then Original, but difference is less then skipDelta
         const isMinifiedSmallerWithDelta = isNumber(configs.skipDelta) && saved[0] < configs.skipDelta;
         if (isMinifiedSmallerWithDelta) {
-            process.stdout.write(`🟠 Your MINIFIED DELTA is smaller then allowed threshold "${filePath}"\nSkipping... Tweak your configs and try again\n`);
+            process.stdout.write(`🟠 Your MINIFIED DELTA is smaller then allowed threshold (${originalSize[1]} → ${optimizedSize[1]}) "${filePath}"\nSkipping... Tweak your configs and try again\n`);
             return;
         }
 
