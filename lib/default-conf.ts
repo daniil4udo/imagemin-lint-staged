@@ -1,19 +1,26 @@
 import type { ImageMinifyConfig } from './types';
 
 export const DEFAULT_CONFIGS: ImageMinifyConfig = {
-    // sharp
-    $sharp: {
-        progressive: true,
-        quality: 90,
-        nearLossless: true,
-        effort: 6,
-        compressionLevel: 9,
-        force: false,
+
+    // https://github.com/svg/svgo/tree/main?tab=readme-ov-file#configuration
+    svg: {
+        multipass: true,
     },
 
-    // svgo
-    $svgo: {
-        multipass: true,
+    // https://sharp.pixelplumbing.com/api-output#toformat
+    jpeg: {
+        progressive: true,
+    },
+    png: {
+        effort: 6,
+        compressionLevel: 9,
+    },
+    webp: {
+        nearLossless: true,
+        effort: 6,
+    },
+    gif: {
+        effort: 6,
     },
 
     // Library defaults

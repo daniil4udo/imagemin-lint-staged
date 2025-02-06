@@ -4,5 +4,6 @@
 /// <reference types="cosmiconfig" />
 /// <reference types="pretty-bytes" />
 /// <reference types="unbuild" />
+/// <reference types="tinypool" />
 
 export { };

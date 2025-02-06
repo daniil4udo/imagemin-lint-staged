@@ -5,7 +5,7 @@ import type { ImageMinifyConfig } from '../lib/types';
 import { defaultsDeep } from '@democrance/utils';
 import { cosmiconfig } from 'cosmiconfig';
 
-import { imageMinify } from '../lib';
+import imageMinify from '../lib';
 import { DEFAULT_CONFIGS } from '../lib/default-conf';
 
 /**

@@ -1,27 +1,27 @@
 // https://github.com/vuejs/tsconfig#configuration-for-node-environments
 {
-	"extends": "@tsconfig/node18/tsconfig.json",
+    "extends": "@tsconfig/node22/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "allowJs": true,
+        "strict": true,
+        "pretty": true,
+        "importHelpers": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "skipLibCheck": true
+    },
     "include": [
         "env.d.ts",
         "./lib/*.ts",
-        "./bin/*.ts",
+        "./bin/*.ts"
     ],
     "exclude": [
         "dist",
         "node_modules",
         "tests/*"
-    ],
-    "compilerOptions": {
-        "baseUrl": ".",
-        "strict": true,
-        "module": "ESNext",
-        "moduleResolution": "Bundler",
-        "pretty": true,
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "importHelpers": true,
-        "isolatedModules": true,
-        "skipLibCheck": true
-    },
+    ]
 }

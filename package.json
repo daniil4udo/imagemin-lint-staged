@@ -1,43 +1,46 @@
 {
     "name": "@democrance/imagemin-lint-staged",
+    "type": "module",
     "version": "3.0.2",
+    "packageManager": "pnpm@10.0.0",
     "description": "Easily configure imagemin to work with lint-staged",
+    "author": "Daniil Chumachenko <daniil4udo@gmail.com>",
+    "license": "MIT",
     "keywords": [
         "lint-staged",
         "imagemin"
     ],
-    "license": "MIT",
-    "author": "Daniil Chumachenko <daniil4udo@gmail.com>",
-    "type": "module",
     "bin": {
         "image-lint-staged": "./dist/bin/cli.js",
         "imagemin-lint-staged": "./dist/bin/cli.js"
     },
-    "scripts": {
-        "build": "rimraf dist && tsup",
-        "lint": "eslint --fix --ext .ts,.js .",
-        "prepublishOnly": "pnpm build",
-        "release": "bumpp --commit --tag --no-push && pnpm publish --access public",
-        "test": "rimraf tests/__snapshots__/index.spec.js.snap && vitest"
-    },
-    "dependencies": {
-        "@democrance/utils": "^0.20.1",
-        "cosmiconfig": "^9.0.0",
-        "pretty-bytes": "^6.1.1",
-        "sharp": "^0.33.3",
-        "svgo": "^3.3.2"
-    },
-    "devDependencies": {
-        "@democrance/eslint-config": "^0.11.1",
-        "@tsconfig/node18": "^18.2.4",
-        "@types/node": "^20.12.11",
-        "bumpp": "^9.4.1",
-        "eslint": "^8.57.0",
-        "tsup": "^8.0.2",
-        "typescript": "~5.3.3",
-        "vitest": "^1.6.0"
-    },
     "engines": {
         "node": ">=18"
+    },
+    "scripts": {
+        "build": "tsup",
+        "lint": "eslint . --fix --color",
+        "prepublishOnly": "pnpm build",
+        "release": "bumpp --commit --tag --no-push && pnpm publish --access public",
+        "test": "rm -rf tests/__snapshots__/index.spec.js.snap && vitest"
+    },
+    "dependencies": {
+        "@democrance/utils": "^1.0.0",
+        "cosmiconfig": "^9.0.0",
+        "exif-reader": "^2.0.2",
+        "pretty-bytes": "^6.1.1",
+        "sharp": "^0.33.5",
+        "svgo": "^3.3.2",
+        "tinypool": "^1.0.2"
+    },
+    "devDependencies": {
+        "@democrance/eslint-config": "^1.0.0",
+        "@tsconfig/node22": "^22.0.0",
+        "@types/node": "^22.13.1",
+        "bumpp": "^10.0.2",
+        "eslint": "^9.19.0",
+        "tsup": "^8.3.6",
+        "typescript": "~5.7.3",
+        "vitest": "^3.0.5"
     }
 }

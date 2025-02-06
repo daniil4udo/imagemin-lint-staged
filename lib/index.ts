@@ -1,112 +1,104 @@
-import type { ImageMinifyConfig, Savings } from './types';
+// imageMinify.ts
+import type { ImageMinifyConfig, SharpInput } from './types';
+import type { Buffer } from 'node:buffer';
 
-import { Buffer } from 'node:buffer';
 import { readFile, writeFile } from 'node:fs/promises';
+import { cpus } from 'node:os';
 
-import { isNumber } from '@democrance/utils';
-import prettyBytes from 'pretty-bytes';
-import sharp from 'sharp';
-import { optimize as svgOptimize } from 'svgo';
+import { isNumber } from '@democrance/utils/isNumber';
+import Tinypool from 'tinypool';
 
 import { DEFAULT_CONFIGS } from './default-conf';
+import { getSavings } from './getSavings';
 
-/**
- * A function that returns the extension of a file name.
- * @param name - The name of the file.
- * @returns The extension of the file.
- */
+const pool = new Tinypool({
+    // filename:  URL('./imageMinify.worker.ts', import.meta.url),
+    filename: new URL('./lib/imageMinify.worker.js', import.meta.url).href,
+    maxThreads: cpus().length - 1,
+    idleTimeout: 30000, // 30 seconds
+});
 
-/**
- * A function that calculates the savings after optimizing an image file.
- * @param originalFile - The original image file.
- * @param newFile - The optimized image file.
- * @returns The savings data.
- */
-function getSavings(originalFile: Buffer, newFile: Buffer): Savings {
-    const originalSize = originalFile.length;
-    const optimizedSize = newFile.length;
-    const saved = originalSize - optimizedSize;
+export async function imageMinify(input: SharpInput, configs: ImageMinifyConfig = DEFAULT_CONFIGS): Promise<Buffer | undefined> {
+    const abortController = new AbortController();
 
-    return {
-        originalSize: [ originalSize, prettyBytes(originalSize) ],
-        optimizedSize: [ optimizedSize, prettyBytes(optimizedSize) ],
-        saved: [ saved, prettyBytes(saved) ],
-    };
-}
-
-/**
- * A function that minifies an image file using imagemin.
- * @param filePath - The name of the file to be minified.
- * @returns A Promise that resolves to the savings data or null in case of error.
- */
-export async function imageMinify(filePath: string, configs: ImageMinifyConfig = DEFAULT_CONFIGS) {
     try {
-        const originalFileBuffer = await readFile(filePath);
+        const result = await pool.run({ input, configs }, { signal: abortController.signal });
 
-        const sharpInstance = sharp(originalFileBuffer);
+        if (result.type === 'skip')
+            return undefined;
 
-        let minifiedFileBuffer: Buffer;
+        if (result.type === 'error')
+            return Promise.reject(new Error(result.message));
 
-        // Let try to get file format first
-        const { format } = await sharpInstance.metadata();
-        if (!format) {
-            return Promise.reject(
-                new TypeError(`🔴 [imageMinify]: ${filePath}\n🔴 [error]: Invalid image format`),
-            );
-        }
-
-        // Use SVGO for SVG files
-        if (format === 'svg') {
-            // Optimize SVG
-            const optimizedSvg = svgOptimize(originalFileBuffer.toString(), configs.$svgo);
-
-            // Create Buffer
-            minifiedFileBuffer = Buffer.from(optimizedSvg.data);
-        }
-
-        else if (format in sharpInstance) {
-            const optimizedImage = sharpInstance.toFormat(format, configs.$sharp);
-
-            // Create Buffer
-            minifiedFileBuffer = await optimizedImage.toBuffer();
-        }
-
-        else {
-            return Promise.reject(
-                new TypeError(`🔴 [imageMinify]: ${filePath}\n🔴 [error]: Unsupported image format`),
-            );
-        }
-
-        // Calculate some savings
-        const { saved, originalSize, optimizedSize } = getSavings(originalFileBuffer, minifiedFileBuffer);
-
-        // if Minified file bigger then Original
-        const isMinifiedSmaller = minifiedFileBuffer.length > originalFileBuffer.length;
-        if (isMinifiedSmaller) {
-            process.stdout.write(`🟠 Your MINIFIED file is bigger then ORIGINAL (${originalSize[1]} → ${optimizedSize[1]}) "${filePath}"\nSkipping... Tweak your configs and try again\n`);
-            return;
-        }
-        // if Minified file is less then Original, but difference is less then skipDelta
-        const isMinifiedSmallerWithDelta = isNumber(configs.skipDelta) && saved[0] < configs.skipDelta;
-        if (isMinifiedSmallerWithDelta) {
-            process.stdout.write(`🟠 Your MINIFIED DELTA is smaller then allowed threshold (${originalSize[1]} → ${optimizedSize[1]}) "${filePath}"\nSkipping... Tweak your configs and try again\n`);
-            return;
-        }
-
-        // Print out savings
-        if (configs.showSavings)
-            process.stdout.write(`✅ Saved ${saved[1]} on ${filePath} (${originalSize[1]} → ${optimizedSize[1]})\n`);
-
-        return writeFile(filePath, minifiedFileBuffer);
-        // await writeFile(`${parse(filePath).dir}/minified.${format}`, minifiedFileBuffer);
+        return result.buffer;
     }
     catch (error) {
-        process.stdout.write(`🔴 [path]: ${filePath}\n`);
-        process.stdout.write(`🔴 [error]: ${error}\n`);
+        const errorMessage = error instanceof Error ? error.message : `${error}`;
+        process.stdout.write(`🔴 [imageMinify]: ${errorMessage}\n`);
 
-        if (!configs.silentErrors)
-            process.exit(1);
-        else
-            return null;
+        return undefined;
     }
 }
+
+export default async function (input: SharpInput, configs: ImageMinifyConfig = DEFAULT_CONFIGS): Promise<void> {
+    try {
+        // Get original buffer for comparison
+        const originalFileBuffer = typeof input === 'string'
+            ? await readFile(input)
+            : input;
+
+        const minifiedFileBuffer = await imageMinify(input, configs);
+
+        if (!minifiedFileBuffer) {
+            process.stdout.write(`🟡 Skipping ${typeof input === 'string' ? input : 'buffer'} - already minified\n`);
+            return;
+        }
+
+        const { saved, originalSize, optimizedSize } = getSavings(
+            originalFileBuffer as any,
+            minifiedFileBuffer,
+        );
+
+        // Skip if minified file is larger
+        if (minifiedFileBuffer.length > (originalFileBuffer as any).length) {
+            process.stdout.write(
+                `🟠 Minified file is larger (${originalSize[1]} → ${optimizedSize[1]}) `
+                + `"${typeof input === 'string' ? input : 'buffer'}"\n`
+                + `Skipping... Adjust configs and try again\n`,
+            );
+            return;
+        }
+
+        // Skip if delta is below threshold
+        if (isNumber(configs.skipDelta) && saved[0] < configs.skipDelta!) {
+            process.stdout.write(
+                `🟠 Minification delta below threshold (${originalSize[1]} → ${optimizedSize[1]}) `
+                + `"${typeof input === 'string' ? input : 'buffer'}"\n`
+                + `Skipping... Adjust configs and try again\n`,
+            );
+            return;
+        }
+
+        if (configs.showSavings) {
+            process.stdout.write(
+                `✅ Saved ${saved[1]} `
+                + `${typeof input === 'string' ? `on ${input}` : '(buffer)'} `
+                + `(${originalSize[1]} → ${optimizedSize[1]})\n`,
+            );
+        }
+
+        // Only write file if input was a path
+        if (typeof input === 'string') {
+            await writeFile(input, minifiedFileBuffer);
+        }
+    }
+    catch (error) {
+        const errorMessage = error instanceof Error ? error.message : error;
+        const identifier = typeof input === 'string' ? input : 'buffer';
+
+        throw new Error(`[image-lint-staged] - ${identifier}\n🔴 ${errorMessage}`);
+    }
+}
+
+// Cleanup pool when process exits
+process.on('exit', () => pool.destroy.bind(pool));
