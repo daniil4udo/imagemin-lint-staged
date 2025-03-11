@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-    format: [ 'cjs', 'esm' ], // generate cjs and esm files
+    format: [ 'esm' ], // generate cjs and esm files
     entry: [
         'lib/index.ts',
         'lib/imageMinify.worker.ts',
@@ -12,5 +12,4 @@ export default defineConfig({
     dts: true, // generate dts file for main module
     skipNodeModulesBundle: true,
     splitting: true,
-    cjsInterop: true,
 });
