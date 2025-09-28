@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
     format: [ 'esm' ], // generate cjs and esm files
@@ -11,5 +11,4 @@ export default defineConfig({
     clean: true, // rimraf dis
     dts: true, // generate dts file for main module
     skipNodeModulesBundle: true,
-    splitting: true,
 });
