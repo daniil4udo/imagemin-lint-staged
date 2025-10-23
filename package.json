@@ -2,7 +2,7 @@
     "name": "@democrance/imagemin-lint-staged",
     "type": "module",
     "version": "5.0.0",
-    "packageManager": "pnpm@10.17.1",
+    "packageManager": "pnpm@10.19.0",
     "description": "Easily configure imagemin to work with lint-staged",
     "author": "Daniil Chumachenko <daniil4udo@gmail.com>",
     "license": "MIT",
@@ -15,7 +15,7 @@
         "imagemin-lint-staged": "./dist/bin/cli.js"
     },
     "engines": {
-        "node": ">=20"
+        "node": ">=22"
     },
     "scripts": {
         "build": "tsdown",
@@ -36,11 +36,11 @@
     "devDependencies": {
         "@democrance/eslint-config": "^3.1.0",
         "@tsconfig/node22": "^22.0.2",
-        "@types/node": "^22.18.6",
-        "bumpp": "^10.2.3",
-        "eslint": "^9.36.0",
-        "tsdown": "^0.15.5",
-        "typescript": "~5.9.2",
-        "vitest": "^3.2.4"
+        "@types/node": "^24.9.1",
+        "bumpp": "^10.3.1",
+        "eslint": "^9.38.0",
+        "tsdown": "^0.15.9",
+        "typescript": "~5.9.3",
+        "vitest": "^4.0.1"
     }
 }
